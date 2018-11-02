@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2048
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSPApp", "TSPApp\TSPApp.csproj", "{17A8C191-1139-4967-AE31-07E31E077B31}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{17A8C191-1139-4967-AE31-07E31E077B31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17A8C191-1139-4967-AE31-07E31E077B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17A8C191-1139-4967-AE31-07E31E077B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17A8C191-1139-4967-AE31-07E31E077B31}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A3AF5E89-A9E5-46B0-939A-E000AEB5D455}
+	EndGlobalSection
+EndGlobal
