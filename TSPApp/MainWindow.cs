@@ -17,18 +17,30 @@ namespace TSPApp
         private const int vertexSize = 5;
 
         private TSP tsp;
-
         private List<float[]> vertices;
+        private List<int> bestState;
+
         private Brush vertexBrush;
+        private Pen pathPen;
+        private Color bgColor;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            vertexBrush = new SolidBrush(Color.White);
-
             vertices = GetVertices(GetRawVertices());
             tsp = new TSP(vertices, 0, 1000, 10, 0.3);
+            tsp.onReportGeneration += OnReportGeneration;
+
+            vertexBrush = new SolidBrush(Color.White);
+            pathPen = new Pen(Color.White);
+            bgColor = canvasBox.BackColor;
+        }
+
+        private void OnReportGeneration(List<int> bestState)
+        {
+            this.bestState = bestState;
+            canvasBox.Refresh();
         }
 
         private string GetRawVertices()
@@ -77,7 +89,12 @@ U 255 466
             // nothing
         }
 
-        private void DrawScene(Graphics gfx)
+        private void DrawState(Graphics gfx, List<int> state)
+        {
+            gfx.DrawLines(pathPen, state.Select(x => new PointF(vertices[x][0], vertices[x][1])).ToArray());
+        }
+
+        private void DrawVertices(Graphics gfx)
         {
             foreach (var vertex in vertices)
             {
@@ -85,18 +102,29 @@ U 255 466
             }
         }
 
-        private void canvasBox_Paint(object sender, PaintEventArgs e)
-        {
-            DrawScene(e.Graphics);
-        }
-
         private void startButton_Click(object sender, EventArgs e)
         {
-            new Thread(() =>
+            //new Thread(() =>
+            //{
+            //    Thread.CurrentThread.IsBackground = true;
+            //    tsp.Run(40);
+            //}).Start();
+
+            tsp.Run(40);
+        }
+
+        private void canvasBox_Paint(object sender, PaintEventArgs e)
+        {
+            var gfx = e.Graphics;
+
+            gfx.Clear(bgColor);
+
+            if (bestState != null)
             {
-                Thread.CurrentThread.IsBackground = true;
-                tsp.Run(40);
-            }).Start();
+                DrawState(gfx, bestState);
+            }
+
+            DrawVertices(gfx);
         }
     }
 }
