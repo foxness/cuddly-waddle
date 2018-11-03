@@ -25,7 +25,7 @@ namespace TSPApp
         private Color bgColor;
 
         private Thread workerThread;
-        private bool shouldWork;
+        private bool working;
 
         private delegate void UpdateStatusDelegate(List<int> bestState);
         private UpdateStatusDelegate updateStatusDelegate;
@@ -111,17 +111,14 @@ U 255 466
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            shouldWork = true;
 
-            workerThread = new Thread(new ThreadStart(HeavyOperation));
-            workerThread.Start();
         }
 
         private void HeavyOperation()
         {
             tsp.InitWithRandomPopulation();
             
-            while (shouldWork)
+            while (working)
             {
                 tsp.NextGeneration();
                 Invoke(updateStatusDelegate, tsp.GetBestState());
@@ -146,7 +143,22 @@ U 255 466
 
         private void stopButton_Click(object sender, EventArgs e)
         {
-            shouldWork = false;
+            working = false;
+        }
+
+        private void toggleButton_Click(object sender, EventArgs e)
+        {
+            if (working)
+            {
+                working = false;
+            }
+            else
+            {
+                working = true;
+
+                workerThread = new Thread(new ThreadStart(HeavyOperation));
+                workerThread.Start();
+            }
         }
     }
 }

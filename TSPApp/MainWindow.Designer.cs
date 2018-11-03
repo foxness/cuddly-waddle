@@ -29,8 +29,7 @@
         private void InitializeComponent()
         {
             this.canvasBox = new System.Windows.Forms.PictureBox();
-            this.startButton = new System.Windows.Forms.Button();
-            this.stopButton = new System.Windows.Forms.Button();
+            this.toggleButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.canvasBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,33 +43,22 @@
             this.canvasBox.TabStop = false;
             this.canvasBox.Paint += new System.Windows.Forms.PaintEventHandler(this.canvasBox_Paint);
             // 
-            // startButton
+            // toggleButton
             // 
-            this.startButton.Location = new System.Drawing.Point(744, 12);
-            this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(68, 23);
-            this.startButton.TabIndex = 1;
-            this.startButton.Text = "Start";
-            this.startButton.UseVisualStyleBackColor = true;
-            this.startButton.Click += new System.EventHandler(this.startButton_Click);
-            // 
-            // stopButton
-            // 
-            this.stopButton.Location = new System.Drawing.Point(744, 41);
-            this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(68, 23);
-            this.stopButton.TabIndex = 2;
-            this.stopButton.Text = "Stop";
-            this.stopButton.UseVisualStyleBackColor = true;
-            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            this.toggleButton.Location = new System.Drawing.Point(744, 12);
+            this.toggleButton.Name = "toggleButton";
+            this.toggleButton.Size = new System.Drawing.Size(68, 23);
+            this.toggleButton.TabIndex = 3;
+            this.toggleButton.Text = "Toggle";
+            this.toggleButton.UseVisualStyleBackColor = true;
+            this.toggleButton.Click += new System.EventHandler(this.toggleButton_Click);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(824, 564);
-            this.Controls.Add(this.stopButton);
-            this.Controls.Add(this.startButton);
+            this.Controls.Add(this.toggleButton);
             this.Controls.Add(this.canvasBox);
             this.Name = "MainWindow";
             this.Text = "TSP App";
@@ -83,8 +71,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox canvasBox;
-        private System.Windows.Forms.Button startButton;
-        private System.Windows.Forms.Button stopButton;
+        private System.Windows.Forms.Button toggleButton;
     }
 }
 
