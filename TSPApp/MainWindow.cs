@@ -122,7 +122,10 @@ U 255 466
 
         private void HeavyOperation()
         {
-            tsp.InitWithRandomPopulation();
+            if (tsp.ResetStatus)
+            {
+                tsp.InitWithRandomPopulation();
+            }
             
             while (working)
             {
@@ -130,8 +133,6 @@ U 255 466
                 var (bestState, bestFitness) = tsp.GetBestState();
                 Invoke(updateStatusDelegate, tsp.CurrentGeneration, bestState, bestFitness);
             }
-
-            workerThread.Abort();
         }
 
         private void canvasBox_Paint(object sender, PaintEventArgs e)
@@ -161,11 +162,21 @@ U 255 466
                 workerThread = new Thread(new ThreadStart(HeavyOperation));
                 workerThread.Start();
             }
+
+            resetButton.Enabled = !working;
         }
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             workerThread.Abort();
+        }
+
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            tsp.Reset();
+            bestState = null;
+            Text = "TSP App";
+            canvasBox.Refresh();
         }
     }
 }

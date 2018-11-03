@@ -27,6 +27,13 @@ namespace TSPApp
             this.mutationProbability = mutationProbability;
         }
 
+        public void Reset()
+        {
+            population = null;
+        }
+
+        public bool ResetStatus => population == null;
+
         public void InitWithRandomPopulation()
         {
             CurrentGeneration = 0;
