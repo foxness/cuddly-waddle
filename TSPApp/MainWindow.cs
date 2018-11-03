@@ -15,6 +15,7 @@ namespace TSPApp
     public partial class MainWindow : Form
     {
         private const int vertexSize = 3;
+        private const int vertexRemoveRadius = 20;
 
         private TSP tsp;
         private List<float[]> vertices;
@@ -175,7 +176,7 @@ U 255 466
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
-            workerThread.Abort();
+            workerThread?.Abort();
         }
 
         private void resetButton_Click(object sender, EventArgs e)
@@ -207,7 +208,15 @@ U 255 466
                 return;
             }
 
-            vertices.Add(new float[] { e.X, e.Y });
+            if (e.Button == MouseButtons.Left)
+            {
+                vertices.Add(new float[] { e.X, e.Y });
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                vertices = vertices.Where(x => Math.Sqrt(Math.Pow(e.X - x[0], 2) + Math.Pow(e.Y - x[1], 2)) > vertexRemoveRadius).ToList();
+            }
+
             canvasBox.Refresh();
         }
     }
