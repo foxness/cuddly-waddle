@@ -32,6 +32,7 @@
             this.toggleButton = new System.Windows.Forms.Button();
             this.resetButton = new System.Windows.Forms.Button();
             this.editButton = new System.Windows.Forms.Button();
+            this.clearButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.canvasBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,11 +77,23 @@
             this.editButton.UseVisualStyleBackColor = true;
             this.editButton.Click += new System.EventHandler(this.editButton_Click);
             // 
+            // clearButton
+            // 
+            this.clearButton.Enabled = false;
+            this.clearButton.Location = new System.Drawing.Point(744, 99);
+            this.clearButton.Name = "clearButton";
+            this.clearButton.Size = new System.Drawing.Size(68, 23);
+            this.clearButton.TabIndex = 6;
+            this.clearButton.Text = "Clear";
+            this.clearButton.UseVisualStyleBackColor = true;
+            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(824, 564);
+            this.Controls.Add(this.clearButton);
             this.Controls.Add(this.editButton);
             this.Controls.Add(this.resetButton);
             this.Controls.Add(this.toggleButton);
@@ -100,6 +113,7 @@
         private System.Windows.Forms.Button toggleButton;
         private System.Windows.Forms.Button resetButton;
         private System.Windows.Forms.Button editButton;
+        private System.Windows.Forms.Button clearButton;
     }
 }
 

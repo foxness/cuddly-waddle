@@ -15,7 +15,7 @@ namespace TSPApp
     public partial class MainWindow : Form
     {
         private const int vertexSize = 3;
-        private const int vertexRemoveRadius = 20;
+        private const int vertexRemoveRadius = 50;
 
         private TSP tsp;
         private List<float[]> vertices;
@@ -54,7 +54,7 @@ namespace TSPApp
         {
             this.bestState = bestState;
             Text = InfoToString(generation, bestState, bestFitness);
-            canvasBox.Refresh();
+            Redraw();
         }
 
         private string InfoToString(int generation, List<int> bestState, double bestFitness)
@@ -199,6 +199,7 @@ U 255 466
 
             toggleButton.Enabled = !editMode;
             resetButton.Enabled = toggleButton.Enabled;
+            clearButton.Enabled = editMode;
         }
 
         private void canvasBox_MouseClick(object sender, MouseEventArgs e)
@@ -217,7 +218,19 @@ U 255 466
                 vertices = vertices.Where(x => Math.Sqrt(Math.Pow(e.X - x[0], 2) + Math.Pow(e.Y - x[1], 2)) > vertexRemoveRadius).ToList();
             }
 
-            canvasBox.Refresh();
+            editButton.Enabled = vertices.Count != 0;
+
+            Redraw();
         }
+
+        private void clearButton_Click(object sender, EventArgs e)
+        {
+            vertices.Clear();
+            editButton.Enabled = false;
+
+            Redraw();
+        }
+
+        private void Redraw() => canvasBox.Refresh();
     }
 }
