@@ -67,14 +67,9 @@ U 255 -466
             var vertices = GetVertices(GetRawVertices());
 
             var tsp = new TSP(vertices, 0, 1000, 10, 0.3);
-            tsp.Run(100);
+            tsp.Run(40);
 
             Console.WriteLine("end");
-        }
-
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

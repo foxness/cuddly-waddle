@@ -37,7 +37,6 @@
             this.ClientSize = new System.Drawing.Size(284, 230);
             this.Name = "MainWindow";
             this.Text = "TSP App";
-            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
             this.ResumeLayout(false);
 

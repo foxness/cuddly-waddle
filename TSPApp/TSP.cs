@@ -38,10 +38,10 @@ namespace TSPApp
                 population = Crossovered(population);
                 population = Mutated(population);
 
-                if (t % 1 == 0 || t == generationCount - 1)
+                if ((t + 1) % (1000 / populationSize) == 0 || t == generationCount - 1)
                 {
                     (bestState, bestFitness) = GetBestState(population);
-                    Console.WriteLine(InfoToString(t, bestState, bestFitness));
+                    Console.WriteLine(InfoToString(t + 1, bestState, bestFitness));
                 }
             }
         }
@@ -58,17 +58,7 @@ namespace TSPApp
 
         private string StateToString(List<int> state)
         {
-            var str = new StringBuilder();
-            var start = (int)'a';
-
-            for (int i = 0; i < state.Count - 1; ++i)
-            {
-                str.Append((char)(state[i] + start));
-            }
-
-            str.Append(state.Last());
-
-            return str.ToString();
+            return String.Join("", state.Select(x => (char)(x + 'a')));
         }
 
         private List<List<int>> Selected(List<List<int>> population)
