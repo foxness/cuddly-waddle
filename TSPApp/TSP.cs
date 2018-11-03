@@ -10,13 +10,13 @@ namespace TSPApp
     {
         private static readonly Random random = new Random();
         private List<List<int>> population;
-        private List<double[]> vertices;
+        private List<float[]> vertices;
         private readonly int startEndVertex;
         private readonly int populationSize;
         private readonly int mutationCount;
         private readonly double mutationProbability;
 
-        public TSP(List<double[]> vertices, int startEndVertex, int populationSize, int mutationCount, double mutationProbability)
+        public TSP(List<float[]> vertices, int startEndVertex, int populationSize, int mutationCount, double mutationProbability)
         {
             this.vertices = vertices;
             this.startEndVertex = startEndVertex;
