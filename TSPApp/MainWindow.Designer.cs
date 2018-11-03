@@ -62,6 +62,7 @@
             this.Controls.Add(this.canvasBox);
             this.Name = "MainWindow";
             this.Text = "TSP App";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.canvasBox)).EndInit();
             this.ResumeLayout(false);

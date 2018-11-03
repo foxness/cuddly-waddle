@@ -27,7 +27,7 @@ namespace TSPApp
         private Thread workerThread;
         private bool working;
 
-        private delegate void UpdateStatusDelegate(List<int> bestState);
+        private delegate void UpdateStatusDelegate(int generation, List<int> bestState, double bestFitness);
         private UpdateStatusDelegate updateStatusDelegate;
 
         public MainWindow()
@@ -44,10 +44,21 @@ namespace TSPApp
             updateStatusDelegate += UpdateStatus;
         }
 
-        private void UpdateStatus(List<int> bestState)
+        private void UpdateStatus(int generation, List<int> bestState, double bestFitness)
         {
             this.bestState = bestState;
+            Text = InfoToString(generation, bestState, bestFitness);
             canvasBox.Refresh();
+        }
+
+        private string InfoToString(int generation, List<int> bestState, double bestFitness)
+        {
+            return $"{generation} - {-bestFitness} - {StateToString(bestState)}";
+        }
+
+        private string StateToString(List<int> state)
+        {
+            return String.Join("", state.Select(x => (char)(x + 'a')));
         }
 
         private string GetRawVertices()
@@ -109,11 +120,6 @@ U 255 466
             }
         }
 
-        private void startButton_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void HeavyOperation()
         {
             tsp.InitWithRandomPopulation();
@@ -121,7 +127,8 @@ U 255 466
             while (working)
             {
                 tsp.NextGeneration();
-                Invoke(updateStatusDelegate, tsp.GetBestState());
+                var (bestState, bestFitness) = tsp.GetBestState();
+                Invoke(updateStatusDelegate, tsp.CurrentGeneration, bestState, bestFitness);
             }
 
             workerThread.Abort();
@@ -141,11 +148,6 @@ U 255 466
             DrawVertices(gfx);
         }
 
-        private void stopButton_Click(object sender, EventArgs e)
-        {
-            working = false;
-        }
-
         private void toggleButton_Click(object sender, EventArgs e)
         {
             if (working)
@@ -159,6 +161,11 @@ U 255 466
                 workerThread = new Thread(new ThreadStart(HeavyOperation));
                 workerThread.Start();
             }
+        }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            workerThread.Abort();
         }
     }
 }

@@ -35,19 +35,17 @@ namespace TSPApp
 
         public void NextGeneration()
         {
+            CurrentGeneration++;
             population = Selected(population);
             population = Crossovered(population);
             population = Mutated(population);
         }
 
-        public List<int> GetBestState()
-        {
-            return GetBestState(population).Item1;
-        }
+        public (List<int>, double) GetBestState() => GetBestState(population);
 
         //public void Run(int generationCount)
         //{
-            
+
 
         //    //var (bestState, bestFitness) = GetBestState(population);
         //    //Console.WriteLine(InfoToString(0, bestState, bestFitness));
@@ -70,16 +68,6 @@ namespace TSPApp
         private (List<int>, double) GetBestState(List<List<int>> population)
         {
             return population.Select(x => (x, GetFitness(x))).OrderByDescending(x => x.Item2).First();
-        }
-
-        private string InfoToString(int generation, List<int> bestState, double bestFitness)
-        {
-            return $"{generation} - {-bestFitness} - {StateToString(bestState)}";
-        }
-
-        private string StateToString(List<int> state)
-        {
-            return String.Join("", state.Select(x => (char)(x + 'a')));
         }
 
         private List<List<int>> Selected(List<List<int>> population)
