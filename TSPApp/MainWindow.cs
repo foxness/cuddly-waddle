@@ -27,6 +27,8 @@ namespace TSPApp
         private Thread workerThread;
         private bool working;
 
+        private bool editMode;
+
         private delegate void UpdateStatusDelegate(int generation, List<int> bestState, double bestFitness);
         private UpdateStatusDelegate updateStatusDelegate;
 
@@ -38,8 +40,11 @@ namespace TSPApp
             tsp = new TSP(vertices, 0, 1000, 10, 0.3);
 
             vertexBrush = new SolidBrush(Color.White);
-            pathPen = new Pen(Color.White);
+            pathPen = new Pen(Color.Gray);
             bgColor = canvasBox.BackColor;
+
+            working = false;
+            editMode = false;
 
             updateStatusDelegate += UpdateStatus;
         }
@@ -53,7 +58,7 @@ namespace TSPApp
 
         private string InfoToString(int generation, List<int> bestState, double bestFitness)
         {
-            return $"{generation} - {-bestFitness} - {StateToString(bestState)}";
+            return $"{generation} - {-bestFitness:0.00} - {StateToString(bestState)}";
         }
 
         private string StateToString(List<int> state)
@@ -159,6 +164,8 @@ U 255 466
             {
                 working = true;
 
+                editButton.Enabled = false;
+
                 workerThread = new Thread(new ThreadStart(HeavyOperation));
                 workerThread.Start();
             }
@@ -176,6 +183,31 @@ U 255 466
             tsp.Reset();
             bestState = null;
             Text = "TSP App";
+            canvasBox.Refresh();
+            editButton.Enabled = true;
+        }
+
+        private void editButton_Click(object sender, EventArgs e)
+        {
+            if (editMode)
+            {
+                tsp = new TSP(vertices, 0, 1000, 10, 0.3);
+            }
+
+            editMode = !editMode;
+
+            toggleButton.Enabled = !editMode;
+            resetButton.Enabled = toggleButton.Enabled;
+        }
+
+        private void canvasBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (!editMode)
+            {
+                return;
+            }
+
+            vertices.Add(new float[] { e.X, e.Y });
             canvasBox.Refresh();
         }
     }

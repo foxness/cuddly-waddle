@@ -20,7 +20,7 @@ namespace TSPApp
 
         public TSP(List<float[]> vertices, int startEndVertex, int populationSize, int mutationCount, double mutationProbability)
         {
-            this.vertices = vertices;
+            this.vertices = (List<float[]>)vertices.Clone();
             this.startEndVertex = startEndVertex;
             this.populationSize = populationSize;
             this.mutationCount = mutationCount;

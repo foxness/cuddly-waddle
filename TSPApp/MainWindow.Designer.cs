@@ -31,6 +31,7 @@
             this.canvasBox = new System.Windows.Forms.PictureBox();
             this.toggleButton = new System.Windows.Forms.Button();
             this.resetButton = new System.Windows.Forms.Button();
+            this.editButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.canvasBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,6 +44,7 @@
             this.canvasBox.TabIndex = 0;
             this.canvasBox.TabStop = false;
             this.canvasBox.Paint += new System.Windows.Forms.PaintEventHandler(this.canvasBox_Paint);
+            this.canvasBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.canvasBox_MouseClick);
             // 
             // toggleButton
             // 
@@ -64,11 +66,22 @@
             this.resetButton.UseVisualStyleBackColor = true;
             this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             // 
+            // editButton
+            // 
+            this.editButton.Location = new System.Drawing.Point(744, 70);
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(68, 23);
+            this.editButton.TabIndex = 5;
+            this.editButton.Text = "Edit";
+            this.editButton.UseVisualStyleBackColor = true;
+            this.editButton.Click += new System.EventHandler(this.editButton_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(824, 564);
+            this.Controls.Add(this.editButton);
             this.Controls.Add(this.resetButton);
             this.Controls.Add(this.toggleButton);
             this.Controls.Add(this.canvasBox);
@@ -86,6 +99,7 @@
         private System.Windows.Forms.PictureBox canvasBox;
         private System.Windows.Forms.Button toggleButton;
         private System.Windows.Forms.Button resetButton;
+        private System.Windows.Forms.Button editButton;
     }
 }
 
