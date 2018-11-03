@@ -16,9 +16,7 @@ namespace TSPApp
         private readonly int mutationCount;
         private readonly double mutationProbability;
 
-        public delegate void ReportGeneration(List<int> bestState);
-
-        public ReportGeneration onReportGeneration;
+        public int CurrentGeneration { get; private set; }
 
         public TSP(List<float[]> vertices, int startEndVertex, int populationSize, int mutationCount, double mutationProbability)
         {
@@ -29,27 +27,45 @@ namespace TSPApp
             this.mutationProbability = mutationProbability;
         }
 
-        public void Run(int generationCount)
+        public void InitWithRandomPopulation()
         {
+            CurrentGeneration = 0;
             population = GetRandomPopulation();
-
-            var (bestState, bestFitness) = GetBestState(population);
-            Console.WriteLine(InfoToString(0, bestState, bestFitness));
-
-            for (int t = 0; t < generationCount; ++t)
-            {
-                population = Selected(population);
-                population = Crossovered(population);
-                population = Mutated(population);
-
-                if ((t + 1) % (1000 / populationSize) == 0 || t == generationCount - 1)
-                {
-                    (bestState, bestFitness) = GetBestState(population);
-                    onReportGeneration(bestState);
-                    Console.WriteLine(InfoToString(t + 1, bestState, bestFitness));
-                }
-            }
         }
+
+        public void NextGeneration()
+        {
+            population = Selected(population);
+            population = Crossovered(population);
+            population = Mutated(population);
+        }
+
+        public List<int> GetBestState()
+        {
+            return GetBestState(population).Item1;
+        }
+
+        //public void Run(int generationCount)
+        //{
+            
+
+        //    //var (bestState, bestFitness) = GetBestState(population);
+        //    //Console.WriteLine(InfoToString(0, bestState, bestFitness));
+
+        //    for (int t = 0; t < generationCount; ++t)
+        //    {
+        //        population = Selected(population);
+        //        population = Crossovered(population);
+        //        population = Mutated(population);
+
+        //        if ((t + 1) % (1000 / populationSize) == 0 || t == generationCount - 1)
+        //        {
+        //            //(bestState, bestFitness) = GetBestState(population);
+        //            //onReportGeneration(bestState);
+        //            //Console.WriteLine(InfoToString(t + 1, bestState, bestFitness));
+        //        }
+        //    }
+        //}
 
         private (List<int>, double) GetBestState(List<List<int>> population)
         {

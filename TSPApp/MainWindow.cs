@@ -14,7 +14,7 @@ namespace TSPApp
 {
     public partial class MainWindow : Form
     {
-        private const int vertexSize = 5;
+        private const int vertexSize = 3;
 
         private TSP tsp;
         private List<float[]> vertices;
@@ -24,20 +24,27 @@ namespace TSPApp
         private Pen pathPen;
         private Color bgColor;
 
+        private Thread workerThread;
+        private bool shouldWork;
+
+        private delegate void UpdateStatusDelegate(List<int> bestState);
+        private UpdateStatusDelegate updateStatusDelegate;
+
         public MainWindow()
         {
             InitializeComponent();
 
             vertices = GetVertices(GetRawVertices());
             tsp = new TSP(vertices, 0, 1000, 10, 0.3);
-            tsp.onReportGeneration += OnReportGeneration;
 
             vertexBrush = new SolidBrush(Color.White);
             pathPen = new Pen(Color.White);
             bgColor = canvasBox.BackColor;
+
+            updateStatusDelegate += UpdateStatus;
         }
 
-        private void OnReportGeneration(List<int> bestState)
+        private void UpdateStatus(List<int> bestState)
         {
             this.bestState = bestState;
             canvasBox.Refresh();
@@ -98,19 +105,29 @@ U 255 466
         {
             foreach (var vertex in vertices)
             {
-                gfx.FillEllipse(vertexBrush, vertex[0], vertex[1], vertexSize, vertexSize);
+                gfx.FillEllipse(vertexBrush, vertex[0] - vertexSize / 2f, vertex[1] - vertexSize / 2f, vertexSize, vertexSize);
             }
         }
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            //new Thread(() =>
-            //{
-            //    Thread.CurrentThread.IsBackground = true;
-            //    tsp.Run(40);
-            //}).Start();
+            shouldWork = true;
 
-            tsp.Run(40);
+            workerThread = new Thread(new ThreadStart(HeavyOperation));
+            workerThread.Start();
+        }
+
+        private void HeavyOperation()
+        {
+            tsp.InitWithRandomPopulation();
+            
+            while (shouldWork)
+            {
+                tsp.NextGeneration();
+                Invoke(updateStatusDelegate, tsp.GetBestState());
+            }
+
+            workerThread.Abort();
         }
 
         private void canvasBox_Paint(object sender, PaintEventArgs e)
@@ -125,6 +142,11 @@ U 255 466
             }
 
             DrawVertices(gfx);
+        }
+
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            shouldWork = false;
         }
     }
 }
